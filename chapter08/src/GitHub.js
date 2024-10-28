@@ -2,43 +2,53 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
 import { Media, Form, Button } from 'react-bootstrap';
-import { Nav, Navbar } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 
 class GitHub extends Component {
-
     constructor() {
         super();
         this.state = {
             data: [],
             searchTerm: '',
             isLoading: false
-
         };
-
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
-    }
-    //calls the server if needed
-    componentDidMount() {
-        //this.getGitHubData('greg');
     }
 
-    //returns github data from API endpoint
+    //react hook
+    //called when the component is first rendered
+    // componentDidMount() {
+    //     this.getGitHubData('J4d4');
+    // }
+
+    handleChange(e) {
+        this.setState({ searchTerm: e.target.value });
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        this.setState({
+            isLoading: true
+        })
+        this.getGitHubData(this.state.searchTerm);
+    }
+
     getGitHubData(_searchTerm) {
         axios.get("https://api.github.com/search/users?q=" + _searchTerm)
             .then(res => {
+                //change state (no longer loading)
                 this.setState({
                     isLoading: false,
+                    //display users on webpage
                     data: res.data.items
                 })
-
+                //print results to console
                 console.log(res.data.items);
             });
     }
-
     render() {
-        const listUsers = this.state.data.map(user =>
+        const listUsers = this.state.data.map((user) =>
             <Media key={user.id}>
                 <Nav.Link href={`/github/user/${user.login}/${user.id}`}>
                     <img
@@ -53,9 +63,8 @@ class GitHub extends Component {
                     <h5>Login: {user.login}</h5>
                     <p>Id: {user.id}</p>
                 </Media.Body>
-            </Media >
+            </Media>
         );
-
         return (
             <div>
                 <Form inline onSubmit={this.handleSubmit}>
@@ -72,8 +81,7 @@ class GitHub extends Component {
                         Search
                     </Button>
                 </Form>
-
-                <h3>GitHub Users Results</h3>
+                <h3>GitHub User Results</h3>
                 {this.state.isLoading &&
                     <ReactLoading type="spinningBubbles" color="#444" />
                 }
@@ -81,19 +89,5 @@ class GitHub extends Component {
             </div>
         );
     }
-    //event handlers
-    handleSubmit(e) {
-        e.preventDefault();
-        this.setState({
-            isLoading: true
-        })
-        this.getGitHubData(this.state.searchTerm);
-    }
-
-    handleChange(e) {
-        this.setState({ searchTerm: e.target.value });
-    }
-
-
 }
 export default GitHub;

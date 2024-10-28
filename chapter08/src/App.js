@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GitHub from './GitHub';
 import GitHubUser from './GitHubUser';
+// import Repository from './Repository';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap';
 
@@ -27,7 +28,7 @@ class Header extends Component {
               <Nav className="mr-auto">
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/github">GitHub</Nav.Link>
-                <Nav.Link href="/repository">Repository</Nav.Link>
+                {/* <Nav.Link href="/repository">Repository</Nav.Link> */}
               </Nav>
             </Navbar.Collapse>
           </Navbar>
@@ -36,7 +37,7 @@ class Header extends Component {
             <Route path="/github" component={GitHub} />
             <Route exact path="/" component={Home} />
             <Route path="/*" component={NotFound} />
-            <Route path="/repository" component={Repository} />
+            {/* <Route path="/repository" component={Repository} /> */}
           </Switch>
         </div>
       </BrowserRouter>

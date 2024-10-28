@@ -10,7 +10,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 const firebaseConfig = {
-  //your config object
+  //firebase config values
 };
 
 firebase.initializeApp(firebaseConfig);
