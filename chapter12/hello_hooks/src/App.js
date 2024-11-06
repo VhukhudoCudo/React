@@ -2,35 +2,37 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import useFetch from './useFetch';
-import Users from './Users' 
+// import Users from './Users';
 
 const App = () => {
-
-  const postsUrl = "https://jsonplaceholder.typicode.com/posts"
-  const todosUrl = "https://jsonplaceholder.typicode.com/todos"
-
+  const usersUrl = 'https://jsonplaceholder.typicode.com/users';
+  const postsUrl = 'https://jsonplaceholder.typicode.com/posts';
+  const todosUrl = 'https://jsonplaceholder.typicode.com/todos';
   //initial state
-  const [requested, setRequested] = useState(postsUrl)
+  const [requested, setRequested] = useState(postsUrl);
   const data = useFetch(requested);
 
-  //works like componentDidMount() as it prevents unecessary re-renders
-  //make app run more efficient
+  //works like componentDidMount() as it prevents unnecessary re-renders
+  //makes app run faster
   // useEffect(() => {
   //   fetch(requested)
-  //     .then(response => response.json())
-  //     .then(data => setData(data))//data arry is then populated with data from the collection 
-  // }, []);
-  //[] :data gets rendered this first time 
-
+  //   .then(response => response.json())
+  //   .then(data => setData(data)) // data array is then populated with data from collection
+  // }, [requested]);
+  //[] :data gets rendered the first time 
 
   return (
     <div>
-      {/* displays the data from the post collection*/}
+      {/* <Users /> */}
+      {/* displays data from the users collection */}
+      <Button variant="link" onClick={() => setRequested(usersUrl)}>
+        Users
+      </Button>
+      {/* displays data from the posts collection */}
       <Button variant="link" onClick={() => setRequested(postsUrl)}>
         Posts
       </Button>
-
-      {/* displays the data from the Todos collection*/}
+      {/* displays data from the todos collection */}
       <Button variant="link" onClick={() => setRequested(todosUrl)}>
         Todos
       </Button>
@@ -38,11 +40,11 @@ const App = () => {
       Requested: {requested}
       <ul>
         {data.map(el => (
-          <li key={el.id}>{el.title}</li>
+          <li key={el.id}>{el.title || el.name}</li>
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
 export default App;
